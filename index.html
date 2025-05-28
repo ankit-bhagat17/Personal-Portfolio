@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    /* Custom Animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+
+    /* Animate on scroll */
+    .visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    /* Profile picture border and effect */
+    .profile-pic {
+      border-radius: 50%;
+      border: 6px solid #a5b4fc; /* Tailwind light indigo-300 */
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 18px #dbeafeaa; /* light blue shadow with transparency */
+      max-width: 260px;
+      max-height: 260px;
+      width: 100%;
+      height: auto;
+    }
+    .profile-pic:hover {
+      transform: scale(1.12);
+      box-shadow: 0 0 30px #a5b4fcaa;
+    }
+    
+    /* Project card hover effect */
+    .project-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 12px;
+      border: 1px solid #dbeafe; /* light violet border */
+      background: #eff6ff; /* very light blue background */
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover {
+      transform: translateY(-14px);
+      box-shadow: 0 16px 30px rgba(165, 180, 252, 0.5);
+      border-color: #a5b4fc;
+      background: #e0e7ff;
+    }
+    .project-card img {
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      object-fit: cover;
+      height: 150px;
+      width: 100%;
+    }
+    .project-card .card-body {
+      flex-grow: 1;
+    }
+
+    /* Navbar brand and links customized colors */
+    nav.navbar {
+      background: linear-gradient(90deg, #c7d2fe, #e0e7ff);
+      box-shadow: 0 4px 20px rgba(165,180,252,0.4);
+    }
+    nav .navbar-brand,
+    nav .nav-link {
+      color: #4f46e5 !important; /* Indigo-700 */
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav .nav-link:hover,
+    nav .navbar-brand:hover {
+      color: #6366f1 !important; /* Indigo-500 */
+      text-shadow: 0 0 8px #a5b4fc;
+    }
+    nav .navbar-toggler-icon {
+      filter: invert(0.35);
+    }
+
+    /* Section headings with gradient text */
+    h2 {
+      background: linear-gradient(90deg, #818cf8, #a5b4fc);
+         background-clip: text; /* Add this line for standard compatibility */;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+      text-shadow: 1px 1px 6px rgba(165,180,252,0.5);
+    }
+
+    /* Skill cards colors */
+    #skills .skill-card {
+      background: linear-gradient(145deg, #dbeafe, #a5b4fc);
+      color: #3730a3; /* Indigo-900 */
+      box-shadow: 0 10px 20px rgba(165, 180, 252, 0.25);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: background 0.3s ease, color 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    #skills .skill-card:hover {
+      background: linear-gradient(145deg, #818cf8, #6366f1);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+      color: white;
+    }
+    #skills .skill-card i {
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.15));
+      margin-bottom: 0.75rem;
+      font-size: 3rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: linear-gradient(90deg, #a5b4fc, #818cf8);
+      border: none;
+      box-shadow: 0 8px 15px rgba(165,180,252,0.4);
+      transition: all 0.3s ease;
+      color: #1e3a8a; /* Indigo-900 */
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #6366f1, #4f46e5);
+      box-shadow: 0 15px 25px rgba(67, 56, 202, 0.5);
+      transform: scale(1.07);
+      color: white;
+    }
+
+    /* Form inputs focus */
+    input:focus, textarea:focus {
+      border-color: #a5b4fc;
+      box-shadow: 0 0 12px #a5b4fcaa;
+      outline: none;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(90deg, #e0e7ff, #c7d2fe);
+      color: #4338ca; /* Indigo-800 */
+      font-weight: 600;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.4);
+    }
+    footer:hover {
+      color: #312e81; /* Indigo-900 */
+    }
+
+    /* Social icons container */
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: #e0e7ff; /* light indigo */
+      color: #4338ca;
+      box-shadow: 0 4px 10px rgba(165,180,252,0.5);
+      transition: all 0.3s ease;
+      font-size: 22px;
+    }
+    .social-icons a:hover {
+      background-color: #a5b4fc;
+      color: white;
+      box-shadow: 0 8px 20px rgba(99,102,241,0.7);
+      transform: scale(1.15);
+    }
+    .social-icons a.gmail {
+      background-color: #fef2f2;
+      color: #dc2626; /* red-600 */
+      box-shadow: 0 4px 10px rgba(220,38,38,0.5);
+    }
+    .social-icons a.gmail:hover {
+      background-color: #dc2626;
+      color: white;
+      box-shadow: 0 8px 20px rgba(220,38,38,0.7);
+    }
+
+  </style>
+</head>
+<body class="bg-gradient-to-b from-indigo-50 via-blue-50 to-indigo-50 text-indigo-900 font-sans">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+      <a class="navbar-brand fs-3" href="#">MyPortfolio</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav align-items-center gap-3 d-flex social-icons">
+          <li>
+            <a href="https://linkedin.com/in/janedoe" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/janedoe" target="_blank" aria-label="GitHub" title="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:jane.doe@gmail.com" target="_blank" aria-label="Gmail" title="Gmail" class="gmail">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="container mx-auto mt-12 px-4 flex flex-col items-center text-center md:flex-row md:text-left md:items-center md:gap-16 animate-fadeInUp">
+    <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center md:justify-start">
+      <img src="Ankit Bhagat.jpg" alt="Profile Picture" class="profile-pic" />
+    </div>
+    <div class="md:w-2/3 space-y-4">
+      <h1 class="text-5xl font-extrabold text-indigo-700">Hi, I'm Ankit Bhagat</h1>
+      <p class="text-lg max-w-xl text-indigo-900 leading-relaxed">
+        Welcome to my portfolio! I'm a passionate Data Analyst fresher ready to help businesses make data-driven decisions. Explore my skills, projects, and get in touch!
+      </p>
+      <div class="flex justify-center md:justify-start gap-8 social-icons mt-4">
+        <a href="https://www.linkedin.com/in/ankitsbhagat" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/ankit-bhagat17" target="_blank" aria-label="GitHub" title="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="mailto:bhagatankit502@gmail.com" target="_blank" aria-label="Gmail" title="Gmail" class="gmail">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="max-w-4xl mx-auto my-12 border-indigo-300" />
+
+  <!-- About Section -->
+  <section id="about" class="max-w-6xl mx-auto px-6 py-12 bg-white rounded-lg shadow-md animate-fadeInUp">
+    <h2 class="text-3xl mb-8 text-center">About Me</h2>
+    <p class="max-w-3xl mx-auto text-indigo-800 leading-relaxed text-center md:text-left text-lg">
+      I am Ankit Bhagat, a fresh graduate data analyst dedicated to interpreting and analyzing data to help companies improve their operational efficiency and profitability. Equipped with strong analytical skills, proficient in SQL, Python, Excel, and modern data visualization tools, I love storytelling with data and deriving compelling insights.
+    </p>
+  </section>
+
+  <hr class="max-w-4xl mx-auto my-12 border-indigo-300" />
+
+  <!-- Skills Section -->
+  <section id="skills" class="max-w-6xl mx-auto px-6 py-12 bg-indigo-50 rounded-lg shadow-md animate-fadeInUp">
+    <h2 class="text-3xl mb-10 text-center">Skills</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="skill-card">
+        <i class="fas fa-database"></i>
+        <h3 class="text-xl font-semibold mb-2">SQL</h3>
+        <p>Writing efficient queries & optimizing databases</p>
+      </div>
+      <div class="skill-card">
+        <i class="fab fa-python"></i>
+        <h3 class="text-xl font-semibold mb-2">Python</h3>
+        <p>Data manipulation & statistical analysis with pandas & NumPy</p>
+      </div>
+      <div class="skill-card">
+        <i class="fas fa-chart-bar"></i>
+        <h3 class="text-xl font-semibold mb-2">Data Visualization</h3>
+        <p>Creating charts & dashboards using Power BI & matplotlib</p>
+      </div>
+      <div class="skill-card">
+        <i class="fas fa-file-excel"></i>
+        <h3 class="text-xl font-semibold mb-2">Excel</h3>
+        <p>Advanced formulas, pivot tables & data cleaning</p>
+      </div>
+      <!-- Streamlit skill card added -->
+      <div class="skill-card">
+        <i class="fas fa-rocket"></i>
+        <h3 class="text-xl font-semibold mb-2">Streamlit</h3>
+        <p>Building interactive data apps & dashboards with Python</p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="max-w-4xl mx-auto my-12 border-indigo-300" />
+
+  <!-- Projects Section -->
+  <!-- Projects Section -->
+<section id="projects" class="max-w-6xl mx-auto px-6 py-12 bg-white rounded-lg shadow-md animate-fadeInUp">
+  <h2 class="text-3xl mb-10 text-center">Projects</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Project 1 -->
+    <div class="project-card">
+      <img src="diwalisales.jpg" alt="Diwali Sales Analysis" />
+      <div class="card-body">
+        <h5 class="fw-bold text-indigo-800 text-xl mb-2">Diwali Sales Analysis</h5>
+        <p>
+          Performed Data Cleaning and Data Manipulation.<br />
+          Performed Exploratory Data Analysis (EDA) using Pandas, NumPy, Matplotlib, Seaborn Libraries.
+        </p>
+        <a href="https://github.com/ankit-bhagat17/Diwali-Sales-Analysis" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline mt-2 inline-block">
+          View on GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card">
+      <img src="Blinkit.png" alt="Customer Segmentation" />
+      <div class="card-body">
+        <h5 class="fw-bold text-indigo-800 text-xl mb-2">Blinkit  Grocery Sales Analysis</h5>
+        <p>
+          This project involves creating a Sales Analysis Dashboard in Power BI using real-world grocery sales data from BlinkIT. The goal is to provide actionable insights into the company’s sales performance, 
+          customer behavior, and product trends.
+        </p>
+        <a href="https://github.com/ankit-bhagat17/Blinkit-Grocery-Sales-Analysisi" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline mt-2 inline-block">
+          View on GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card">
+      <img src="dash.png" alt="Dashboard Design" />
+      <div class="card-body">
+        <h5 class="fw-bold text-indigo-800 text-xl mb-2">Weather Dashboard</h5>
+        <p>
+        🌤️ Weather Dashboard | Python, Streamlit, OpenWeatherMap API
+          Built a real-time weather dashboard with dynamic city/state selection. Integrated OpenWeatherMap API for live weather updates and used Matplotlib, 
+          Seaborn, and Folium for rich data visualizations including line charts, heatmaps, and maps.
+        <a href="https://ankitbhagatweatherapp.streamlit.app" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline mt-2 inline-block">
+          View Live Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <hr class="max-w-4xl mx-auto my-12 border-indigo-300" />
+
+  <!-- Contact Section -->
+  <section id="contact" class="max-w-3xl mx-auto px-6 py-12 bg-indigo-50 rounded-lg shadow-md animate-fadeInUp">
+    <h2 class="text-3xl mb-8 text-center">Get in Touch</h2>
+    <form id="contactForm" novalidate class="space-y-6">
+      <div>
+        <label for="name" class="form-label fw-semibold text-indigo-900">Name</label>
+        <input type="text" id="name" name="name" required placeholder="Your Full Name" class="form-control border-indigo-300" />
+      </div>
+      <div>
+        <label for="email" class="form-label fw-semibold text-indigo-900">Email</label>
+        <input type="email" id="email" name="email" required placeholder="your.email@example.com" class="form-control border-indigo-300" />
+      </div>
+      <div>
+        <label for="message" class="form-label fw-semibold text-indigo-900">Message</label>
+        <textarea id="message" rows="5" name="message" required placeholder="Write your message here..." class="form-control border-indigo-300"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary w-full py-3 text-lg font-semibold hover:scale-105 transition-transform duration-300">
+        Send Message
+      </button>
+      <p id="formResponse" class="mt-3 text-center text-green-700 font-semibold hidden">Thanks for contacting me! I will get back to you soon.</p>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-6 mt-20 text-center text-indigo-700 text-sm font-semibold shadow-inner select-none">
+    © 2024 Ankit Bhagat 
+  </footer>
+
+  <!-- Bootstrap Bundle JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Simple form submission handler (no backend)
+    const contactForm = document.getElementById('contactForm');
+    const formResponse = document.getElementById('formResponse');
+
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (!contactForm.checkValidity()) {
+        contactForm.classList.add('was-validated');
+        return;
+      }
+      
+      // Simulate sending message
+      formResponse.classList.remove('hidden');
+
+      // Clear form fields
+      contactForm.reset();
+
+      // Remove validation styling
+      contactForm.classList.remove('was-validated');
+
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        formResponse.classList.add('hidden');
+      }, 5000);
+    });
+
+    // Animate on scroll using IntersectionObserver
+    const animatedElements = document.querySelectorAll('.animate-fadeInUp');
+
+    const observerOptions = {
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    animatedElements.forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
+
